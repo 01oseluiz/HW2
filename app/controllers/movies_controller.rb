@@ -3,9 +3,13 @@ class MoviesController < ApplicationController
   def index
     sort = params[:sort_by].sub("_header","") unless params[:sort_by].nil?
     sort = Movie.has_attribute?(sort) ? sort : ""
-    @movies = Movie.all.order( sort)
 
-    @all_ratings = [""]
+    @check_box = params[:ratings].nil? ? Movie.all_ratings : params[:ratings].each_key.to_a
+
+    @all_ratings = Movie.all_ratings
+
+    @movies = Movie.order(sort).where(rating: @check_box)
+
   end
 
   def show
