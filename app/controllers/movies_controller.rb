@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
     sort = params[:sort_by].sub("_header","") unless params[:sort_by].nil?
     sort = Movie.has_attribute?(sort) ? sort : ""
     @movies = Movie.all.order( sort)
+
+    @all_ratings = [""]
   end
 
   def show
