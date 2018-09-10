@@ -1,10 +1,23 @@
 # This file is app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
+  before_action :check_session, only: [:index]
+
+  def check_session
+    if params[:sort_by].nil? && params[:ratings].nil?
+      session[:sort_by] = params[:sort_by]
+      session[:ratings] = params[:ratings]
+    elsif params[:sort_by].nil? && !params[:ratings].nil?
+      session[:ratings] = params[:ratings]
+    elsif !params[:sort_by].nil? && params[:ratings].nil?
+      session[:sort_by] = params[:sort_by]
+    end
+  end
+
   def index
-    sort = params[:sort_by].sub("_header","") unless params[:sort_by].nil?
+    sort = session[:sort_by] unless session[:sort_by].nil?
     sort = Movie.has_attribute?(sort) ? sort : ""
 
-    @check_box = params[:ratings].nil? ? Movie.all_ratings : params[:ratings].each_key.to_a
+    @check_box = session[:ratings].nil? ? Movie.all_ratings : session[:ratings].each_key.to_a
 
     @all_ratings = Movie.all_ratings
 
