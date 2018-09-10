@@ -1,7 +1,9 @@
 # This file is app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
   def index
-    @movies = Movie.all
+    sort = params[:sort_by].sub("_header","") unless params[:sort_by].nil?
+    sort = Movie.has_attribute?(sort) ? sort : ""
+    @movies = Movie.all.order( sort)
   end
 
   def show
