@@ -6,9 +6,9 @@ class MoviesController < ApplicationController
     if params[:sort_by].nil? && params[:ratings].nil?
       session[:sort_by] = params[:sort_by]
       session[:ratings] = params[:ratings]
-    elsif params[:sort_by].nil? && !params[:ratings].nil?
+    elsif !params[:ratings].nil?
       session[:ratings] = params[:ratings]
-    elsif !params[:sort_by].nil? && params[:ratings].nil?
+    elsif !params[:sort_by].nil?
       session[:sort_by] = params[:sort_by]
     end
   end
